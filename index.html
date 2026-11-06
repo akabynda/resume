@@ -4,267 +4,901 @@
 <head>
     <meta charset="UTF-8">
     <title>Danil Yevdokimov</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Danil Yevdokimov: research intern at SPbU, analyst at ITMO University, former backend developer at Parseq Lab. Saint Petersburg.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: #f8f9fa;
+        :root {
+            --bg: #f6f6f6;
+            --card: #fff;
+            --ink: #1f2937;
+            --muted: #4b5563;
+            --line: #eee;
+            --line-strong: #e8e8e8;
+            --chip: #eee;
+            --chip-tied: #d8e8de;
+            --yellow: #fde68a;
+            --sand: #f7e7c4;
+            --slate: #3b4758;
+            --slate-hover: #303b4b;
+            --ease: cubic-bezier(.2, .8, .2, 1);
         }
 
-        .avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: #dee2e6;
-            display: flex;
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html, body { margin: 0; }
+
+        html { scroll-padding-top: 24px; }
+
+        body {
+            background: var(--bg);
+            color: var(--ink);
+            font: 400 16px/1.55 "Geologica", system-ui, sans-serif;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        h1, h2, h3, p, ul { margin: 0; padding: 0; }
+
+        ul { list-style: none; }
+
+        :focus-visible {
+            outline: 2px solid var(--slate);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        .page {
+            display: grid;
+            grid-template-columns: 320px minmax(0, 1fr);
+            align-items: start;
+            gap: 24px;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Profile card */
+        .profile,
+        .section {
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
+
+        .profile { padding: 24px; }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            line-height: 1.15;
+            letter-spacing: -0.01em;
+        }
+
+        .intro { margin-top: 12px; }
+
+        .facts { margin-top: 16px; }
+
+        .fact { padding: 12px 0; border-top: 1px solid var(--line); }
+
+        .label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .fact li { overflow-wrap: anywhere; }
+
+        .link {
+            color: inherit;
+            text-decoration: underline;
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+        }
+
+        .btn {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            color: #6c757d;
-            margin: 0 auto 20px;
+            width: 100%;
+            min-height: 44px;
+            margin-top: 12px;
+            padding: 8px 24px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 1.2;
+            font-family: inherit;
+            background: var(--slate);
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 140ms var(--ease), transform 140ms var(--ease);
         }
 
-        .skills span {
-            display: inline-block;
-            margin: 4px 8px 4px 0;
-            padding: 5px 12px;
-            border-radius: 20px;
-            background: #e9ecef;
-            font-size: 0.97rem;
+        .btn:active { transform: translateY(1px) scale(.985); }
+
+        /* Collapsible rows */
+        summary {
+            list-style: none;
+            cursor: pointer;
         }
 
-        .section-title {
+        summary::-webkit-details-marker { display: none; }
+
+        .chevron {
+            flex: none;
+            width: 20px;
+            height: 20px;
+            color: var(--muted);
+            transition: transform 200ms var(--ease);
+        }
+
+        details[open] > summary .chevron { transform: rotate(180deg); }
+
+        details.is-opening > .panel { animation: drop 200ms var(--ease); }
+
+        @keyframes drop {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        /* Sections */
+        .sections {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .section > summary {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+        }
+
+        h2 {
+            font-size: 22px;
             font-weight: 600;
-            margin-top: 32px;
-            margin-bottom: 16px;
+            line-height: 1.25;
         }
 
-        a {
-            word-break: break-all;
+        .section-meta {
+            margin-left: auto;
+            color: var(--muted);
+            font-size: 14px;
+            text-align: right;
+        }
+
+        .section > .panel { padding: 0 24px 24px; }
+
+        /* Education and positions share one card */
+        .edu,
+        .job {
+            border: 2px solid var(--line-strong);
+            border-radius: 16px;
+            transition: border-color 140ms var(--ease), box-shadow 140ms var(--ease);
+        }
+
+        .edu + .edu,
+        .job + .job { margin-top: 12px; }
+
+        .edu {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 4px 24px;
+            padding: 14px 18px;
+        }
+
+        .row-title { font-size: 17px; font-weight: 500; line-height: 1.35; }
+
+        .edu-program { grid-column: 1; }
+
+        .dates { color: var(--muted); font-size: 14px; white-space: nowrap; }
+
+        .edu .dates { grid-column: 2; grid-row: 1; line-height: 1.6; }
+
+        .job[open] { border-color: var(--yellow); }
+
+        .job > summary {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto 20px;
+            align-items: center;
+            gap: 4px 16px;
+            padding: 14px 18px;
+        }
+
+        .job-role { display: block; color: var(--muted); }
+
+        .job > .panel { padding: 0 18px 18px; }
+
+        .duties { max-width: 76ch; }
+
+        .duties li {
+            position: relative;
+            padding-left: 16px;
+            margin-top: 8px;
+        }
+
+        .duties li:first-child { margin-top: 0; }
+
+        .duties li::before {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: .68em;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--ink);
+        }
+
+        .job .stack-label { margin-top: 16px; margin-bottom: 8px; }
+
+        /* Skills */
+        .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+        .chip {
+            display: block;
+            min-height: 30px;
+            padding: 4px 10px;
+            border: 0;
+            border-radius: 6px;
+            background: var(--chip);
+            color: inherit;
+            font-size: 14px;
+            line-height: 22px;
+            font-family: inherit;
+            text-align: left;
+        }
+
+        button.chip {
+            cursor: pointer;
+            transition: background-color 140ms var(--ease), transform 140ms var(--ease);
+        }
+
+        button.chip:active { transform: translateY(1px) scale(.985); }
+
+        .chip--tied { background: var(--chip-tied); }
+
+        .chip[aria-pressed="true"] { background: var(--yellow); }
+
+        .skill-group {
+            display: grid;
+            grid-template-columns: 160px minmax(0, 1fr);
+            gap: 8px 16px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .skill-group:first-of-type { padding-top: 0; }
+
+        .skill-group:last-child { border-bottom: 0; padding-bottom: 0; }
+
+        h3 { font-size: 15px; font-weight: 500; line-height: 1.4; padding-top: 4px; }
+
+        .skill-note {
+            grid-column: 2;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: var(--sand);
+        }
+
+        .skill-note[hidden] { display: none; }
+
+        .skill-note strong { font-weight: 500; }
+
+        .skill-note li { margin-top: 4px; }
+
+        @media (hover: hover) and (pointer: fine) {
+            .link:hover { text-decoration-thickness: 2px; }
+            .btn:hover { background: var(--slate-hover); }
+            button.chip:hover { background: #e0e0e0; }
+            button.chip--tied:hover { background: #c7ddcf; }
+            button.chip[aria-pressed="true"]:hover { background: var(--yellow); }
+            .job:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, .08); }
+            summary:hover .chevron { color: var(--ink); }
+        }
+
+        @media (min-width: 1025px) and (min-height: 760px) {
+            .profile { position: sticky; top: 24px; }
+        }
+
+        @media (max-width: 1024px) {
+            .page { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 16px; }
+
+            .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+
+            .btn { width: auto; }
+        }
+
+        @media (max-width: 640px) {
+            .page { padding: 12px; gap: 12px; }
+
+            .profile { padding: 20px; }
+
+            .fact--wide { grid-column: 1 / -1; }
+
+            .btn { width: 100%; }
+
+            .section > summary { gap: 12px; padding: 16px; }
+
+            .section > .panel { padding: 0 12px 12px; }
+
+            h2 { font-size: 20px; }
+
+            .section-meta { font-size: 13px; max-width: 45%; }
+
+            .edu { grid-template-columns: minmax(0, 1fr); padding: 12px 14px; }
+
+            .edu .dates { grid-column: 1; grid-row: auto; }
+
+            .job > summary { grid-template-columns: minmax(0, 1fr) 20px; padding: 12px 14px; }
+
+            .job > summary .dates { grid-column: 1; grid-row: 2; white-space: normal; }
+
+            .job > summary .chevron { grid-column: 2; grid-row: 1; }
+
+            .job > .panel { padding: 0 14px 14px; }
+
+            .skill-group { grid-template-columns: minmax(0, 1fr); }
+
+            h3 { padding-top: 0; }
+
+            .skill-note { grid-column: 1; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+        }
+
+        @media print {
+            body { background: #fff; font-size: 11pt; }
+
+            .page { display: block; padding: 0; }
+
+            .profile, .section { box-shadow: none; border-radius: 0; padding: 0; margin-bottom: 12px; }
+
+            .section > summary, .section > .panel { padding-left: 0; padding-right: 0; }
+
+            .facts { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: 16px; }
+
+            .btn, .chevron, .skill-note { display: none !important; }
+
+            .job, .edu { border: 1px solid #ccc; break-inside: avoid; }
+
+            .chip { background: none; border: 1px solid #ccc; min-height: 0; padding: 0 6px; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container py-5">
-        <div class="bg-white p-4 rounded-4 shadow-sm">
-            <div class="text-center mb-4">
-                <div class="avatar mb-2">
-                    <span>DY</span>
+    <div class="page">
+        <header class="profile">
+            <h1>Danil Yevdokimov</h1>
+            <p class="intro">Research intern at SPbU, analyst at ITMO University, former backend developer at Parseq Lab.</p>
+
+            <div class="facts">
+                <div class="fact fact--wide">
+                    <span class="label">Email</span>
+                    <a class="link" href="mailto:danilguy7@gmail.com">danilguy7@gmail.com</a>
                 </div>
-                <h1 class="mb-0">Danil Yevdokimov</h1>
-                <div class="text-muted mb-2">Saint Petersburg</div>
-                <div>
-                    <a href="mailto:danilguy7@gmail.com" class="me-3">danilguy7@gmail.com</a>
+                <div class="fact">
+                    <span class="label">Location</span>
+                    Saint Petersburg
+                </div>
+                <div class="fact">
+                    <span class="label">Citizenship</span>
+                    Kazakhstan
+                </div>
+                <div class="fact">
+                    <span class="label">Languages</span>
+                    <ul>
+                        <li>Russian, native</li>
+                        <li>English, B2</li>
+                        <li>German, B1</li>
+                    </ul>
+                </div>
+                <div class="fact">
+                    <span class="label">Profiles and documents</span>
+                    <ul>
+                        <li><a class="link" href="https://github.com/akabynda" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a class="link" href="https://scholar.google.com/citations?user=jTpC9kAAAAAJ&amp;hl=ru&amp;authuser=1" target="_blank" rel="noopener">Google Scholar</a></li>
+                        <li><a class="link" href="https://drive.google.com/drive/folders/1ZkF-NXdOr42KMzB7vm0y4ZedkVwlvstF?usp=sharing" target="_blank" rel="noopener">Certificates and awards</a></li>
+                    </ul>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="section-title">Education</div>
-                    <p>
-                        <strong>Saint Petersburg State University (SPbU), Faculty of Mathematics and Mechanics</strong><br>
-                        Software Engineering, Bachelor’s degree (2025)
-                    </p>
-                    <p>
-                        <strong>V.N. Orekhovich Institute of Biomedical Chemistry</strong><br>
-                        Structural Bioinformatics: AlphaFold3, additional professional education (2025)
-                    </p>
-                    <p>
-                        <strong>ITMO University, ITMO.Mentors</strong><br>
-                        Fundamentals of Teaching, professional development program (2026)
-                    </p>
-                    <p>
-                        <strong>ITMO University, Faculty of Software Engineering and Computer Systems</strong><br>
-                        Neurotechnology and Software Engineering, Master’s degree (2027)
-                    </p>
+            <button class="btn" type="button" id="toggle-all" hidden>Expand all sections</button>
+        </header>
 
-                    <div class="section-title">Work Experience</div>
-                        <ul class="list-unstyled">
-                           <li class="mb-4">
-                                <strong>SPbU Biomolecular NMR Laboratory</strong>
-                                <span class="text-muted">— September 2025 &ndash; Present</span><br>
-                            
-                                <span>Research Intern</span><br>
-                            
-                                <ul class="mt-2">
-                                    <li>
-                                        Investigating approaches to improve PCANN, a structure-based
-                                        neural network model for predicting protein&ndash;protein binding affinity.
-                                    </li>
-                                    <li>
-                                        Working with ESM-2 protein representations and graph-based
-                                        deep learning methods for protein complex affinity prediction.
-                                    </li>
-                                    <li>
-                                        Contributed to AmberTools26 by fixing the solvateOct method.
-                                    </li>
-                                </ul>
-                            </li>
-                            
-                            <li class="mb-4">
-                                <strong>ITMO University — Center for Artificial Intelligence in Chemistry</strong>
-                                <span class="text-muted">— June 2026 &ndash; Present</span><br>
-                            
-                                <span>Research Intern</span><br>
-                            
-                                <ul class="mt-2">
-                                    <li>
-                                        Developing an AI-based pipeline for automated extraction and
-                                        structuring of differential scanning calorimetry (DSC) data
-                                        from scientific literature.
-                                    </li>
-                                    <li>
-                                        Exploring LLM-based methods for transforming unstructured
-                                        scientific publications into machine-readable datasets
-                                        for downstream analysis.
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="mb-4">
-                                <strong>Parseq Lab</strong> <span class="text-muted">— August 2024 — September 2025</span><br>
-                                <span>Backend Developer (Middle)</span><br>
-                                <span class="text-muted small">
-                                    Stack: Kotlin, Ktor, Koin, Coroutines, Kotlinx Serialization, PostgreSQL, S3 (MinIO/AWS), Docker, Jenkins, Jira, Confluence, PL/pgSQL, SQL, Object Storage, REST API, Swagger/OpenAPI
-                                </span>
-                                <ul class="mt-2">
-                                    <li>Development and maintenance of the backend of a corporate analytics platform in the field of bioinformatics (Ktor, Koin, Coroutines).</li>
-                                    <li>Design and implementation of REST APIs with versioning and automatic generation of OpenAPI specifications.</li>
-                                    <li>Development of SQL queries for complex data selection and aggregation with business logic taken into account.</li>
-                                    <li>Implementation of transactional operations with object storage (S3) for uploading and processing bioinformatics data (JSON, TSV, CNV, Fusion, etc.).</li>
-                                    <li>Development and maintenance of subscription and email notification systems (message templates, database triggers).</li>
-                                    <li>Automation and maintenance of CI/CD pipelines (Docker, Jenkins).</li>
-                                </ul>
-                            </li>
-                            <li class="mb-4">
-                                <strong>Mobil-Group LLC</strong> <span class="text-muted">— September 2023 — July 2024</span><br>
-                                <span>Python Developer (Intern)</span><br>
-                                <ul class="mt-2">
-                                    <li>Development of a graphical programming tool for 2G networks based on Draw.io using Python.</li>
-                                    <li>Connection to base stations, exchange of configuration files, and automatic application of changes to equipment.</li>
-                                    <li>Creation of an application prototype and testing of its functionality.</li>
-                                </ul>
-                            </li>
-                            <li class="mb-4">
-                                <strong>TICS.LAB</strong> <span class="text-muted">— September 2021 — July 2022</span><br>
-                                <span>Python Developer (Intern)</span><br>
-                                <ul class="mt-2">
-                                    <li>Development and testing of a chatbot prototype for SPbU that automated interaction between applicants and the university.</li>
-                                    <li>Development of a service for generating and printing QR codes for vehicles (Python, JavaScript).</li>
-                                    <li>Wrote unit tests for existing code, conducted user testing, and implemented improvements.</li>
-                                </ul>
-                            </li>
-                        </ul>
+        <main class="sections">
+            <details class="section" id="education">
+                <summary>
+                    <h2>Education</h2>
+                    <span class="section-meta">4 programs, 2025&ndash;2027</span>
+                    <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                </summary>
+                <div class="panel">
+                    <div class="edu">
+                        <div class="row-title">ITMO University, Faculty of Software Engineering and Computer Systems</div>
+                        <div class="edu-program">Neurotechnology and Software Engineering, Master&rsquo;s degree</div>
+                        <div class="dates">2027</div>
+                    </div>
+                    <div class="edu">
+                        <div class="row-title">ITMO University, ITMO.Mentors</div>
+                        <div class="edu-program">Fundamentals of Teaching, professional development program</div>
+                        <div class="dates">2026</div>
+                    </div>
+                    <div class="edu">
+                        <div class="row-title">Saint Petersburg State University (SPbU), Faculty of Mathematics and Mechanics</div>
+                        <div class="edu-program">Software Engineering, Bachelor&rsquo;s degree</div>
+                        <div class="dates">2025</div>
+                    </div>
+                    <div class="edu">
+                        <div class="row-title">V.N. Orekhovich Institute of Biomedical Chemistry</div>
+                        <div class="edu-program">Structural Bioinformatics: AlphaFold3, additional professional education</div>
+                        <div class="dates">2025</div>
+                    </div>
+                </div>
+            </details>
+
+            <details class="section" id="experience" open>
+                <summary>
+                    <h2>Work experience</h2>
+                    <span class="section-meta">6 positions, 2021&ndash;present</span>
+                    <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                </summary>
+                <div class="panel">
+                    <!--
+                        To add a skill to a position, add one <li data-cat="..."> to its .job-stack list.
+                        The Skills and stack section below picks it up by itself and links it back here.
+                        data-cat must match a data-cat of a .skill-group in that section.
+                    -->
+                    <details class="job" id="job-nmr" data-short="SPbU NMR Lab">
+                        <summary>
+                            <div>
+                                <span class="row-title">SPbU Biomolecular NMR Laboratory</span>
+                                <span class="job-role">Research Intern</span>
+                            </div>
+                            <span class="dates">September 2025 &ndash; Present</span>
+                            <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                        </summary>
+                        <div class="panel">
+                            <ul class="duties">
+                                <li>Investigating approaches to improve PCANN, a structure-based neural network model for predicting protein&ndash;protein binding affinity.</li>
+                                <li>Working with ESM-2 protein representations and graph-based deep learning methods for protein complex affinity prediction.</li>
+                                <li>Contributed to AmberTools26 by fixing the solvateOct method.</li>
+                            </ul>
+                            <span class="label stack-label">Stack</span>
+                            <ul class="chips job-stack">
+                                <li data-cat="languages">Python</li>
+                                <li data-cat="ml">PCANN</li>
+                                <li data-cat="ml">ESM-2</li>
+                                <li data-cat="ml">Graph-based deep learning</li>
+                                <li data-cat="ml">AmberTools</li>
+                                <li data-cat="agents">Claude Code</li>
+                                <li data-cat="agents">Codex</li>
+                                <li data-cat="agents">AI coding agents</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="job" id="job-itmo-analyst" data-short="ITMO Analyst">
+                        <summary>
+                            <div>
+                                <span class="row-title">ITMO University, Soft Skills Department</span>
+                                <span class="job-role">Analyst</span>
+                            </div>
+                            <span class="dates">June 2026 &ndash; Present</span>
+                            <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                        </summary>
+                        <div class="panel">
+                            <ul class="duties">
+                                <li>Connecting forms to dashboards so that teachers can analyze their results.</li>
+                                <li>Fully automating the process from form responses to dashboards with Python scripts.</li>
+                                <li>Designing the solution architecture on Yandex Cloud, using Yandex DataLens, Yandex Query and Yandex Database.</li>
+                            </ul>
+                            <span class="label stack-label">Stack</span>
+                            <ul class="chips job-stack">
+                                <li data-cat="languages">Python</li>
+                                <li data-cat="tools">Yandex Cloud</li>
+                                <li data-cat="tools">Yandex DataLens</li>
+                                <li data-cat="data">Yandex Query</li>
+                                <li data-cat="data">Yandex Database</li>
+                                <li data-cat="agents">Claude Code</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="job" id="job-itmo" data-short="ITMO AI in Chemistry">
+                        <summary>
+                            <div>
+                                <span class="row-title">ITMO University, Center for Artificial Intelligence in Chemistry</span>
+                                <span class="job-role">Research Intern (Volunteer)</span>
+                            </div>
+                            <span class="dates">June 2026 &ndash; Present</span>
+                            <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                        </summary>
+                        <div class="panel">
+                            <ul class="duties">
+                                <li>Developing an AI-based pipeline for automated extraction and structuring of differential scanning calorimetry (DSC) data from scientific literature.</li>
+                                <li>Exploring LLM-based methods for transforming unstructured scientific publications into machine-readable datasets for downstream analysis.</li>
+                            </ul>
+                            <span class="label stack-label">Stack</span>
+                            <ul class="chips job-stack">
+                                <li data-cat="languages">Python</li>
+                                <li data-cat="ml">LLMs</li>
+                                <li data-cat="ml">Scientific data extraction</li>
+                                <li data-cat="agents">Claude Code</li>
+                                <li data-cat="agents">Codex</li>
+                                <li data-cat="agents">AI coding agents</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="job" id="job-parseq" data-short="Parseq Lab">
+                        <summary>
+                            <div>
+                                <span class="row-title">Parseq Lab</span>
+                                <span class="job-role">Backend Developer (Middle)</span>
+                            </div>
+                            <span class="dates">August 2024 &ndash; September 2025</span>
+                            <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                        </summary>
+                        <div class="panel">
+                            <ul class="duties">
+                                <li>Development and maintenance of the backend of a corporate analytics platform in the field of bioinformatics (Ktor, Koin, Coroutines).</li>
+                                <li>Design and implementation of REST APIs with versioning and automatic generation of OpenAPI specifications.</li>
+                                <li>Development of SQL queries for complex data selection and aggregation with business logic taken into account.</li>
+                                <li>Implementation of transactional operations with object storage (S3) for uploading and processing bioinformatics data (JSON, TSV, CNV, Fusion, etc.).</li>
+                                <li>Development and maintenance of subscription and email notification systems (message templates, database triggers).</li>
+                                <li>Automation and maintenance of CI/CD pipelines (Docker, Jenkins).</li>
+                            </ul>
+                            <span class="label stack-label">Stack</span>
+                            <ul class="chips job-stack">
+                                <li data-cat="languages">Kotlin</li>
+                                <li data-cat="backend">Ktor</li>
+                                <li data-cat="backend">Koin</li>
+                                <li data-cat="backend">Coroutines</li>
+                                <li data-cat="backend">Kotlinx Serialization</li>
+                                <li data-cat="data">PostgreSQL</li>
+                                <li data-cat="data">S3 (MinIO/AWS)</li>
+                                <li data-cat="tools">Docker</li>
+                                <li data-cat="tools">Jenkins</li>
+                                <li data-cat="tools">Jira</li>
+                                <li data-cat="tools">Confluence</li>
+                                <li data-cat="data">PL/pgSQL</li>
+                                <li data-cat="data">SQL</li>
+                                <li data-cat="data">Object Storage</li>
+                                <li data-cat="backend">REST API</li>
+                                <li data-cat="backend">Swagger/OpenAPI</li>
+                                <li data-cat="agents">Codex</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="job" id="job-mobil" data-short="Mobil-Group">
+                        <summary>
+                            <div>
+                                <span class="row-title">Mobil-Group LLC</span>
+                                <span class="job-role">Python Developer (Intern)</span>
+                            </div>
+                            <span class="dates">September 2023 &ndash; July 2024</span>
+                            <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                        </summary>
+                        <div class="panel">
+                            <ul class="duties">
+                                <li>Development of a graphical programming tool for 2G networks based on Draw.io using Python.</li>
+                                <li>Connection to base stations, exchange of configuration files, and automatic application of changes to equipment.</li>
+                                <li>Creation of an application prototype and testing of its functionality.</li>
+                            </ul>
+                            <span class="label stack-label">Stack</span>
+                            <ul class="chips job-stack">
+                                <li data-cat="languages">Python</li>
+                                <li data-cat="tools">Draw.io</li>
+                            </ul>
+                        </div>
+                    </details>
+
+                    <details class="job" id="job-tics" data-short="TICS.LAB">
+                        <summary>
+                            <div>
+                                <span class="row-title">TICS.LAB</span>
+                                <span class="job-role">Python Developer (Intern)</span>
+                            </div>
+                            <span class="dates">September 2021 &ndash; July 2022</span>
+                            <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                        </summary>
+                        <div class="panel">
+                            <ul class="duties">
+                                <li>Development and testing of a chatbot prototype for SPbU that automated interaction between applicants and the university.</li>
+                                <li>Development of a service for generating and printing QR codes for vehicles (Python, JavaScript).</li>
+                                <li>Wrote unit tests for existing code, conducted user testing, and implemented improvements.</li>
+                            </ul>
+                            <span class="label stack-label">Stack</span>
+                            <ul class="chips job-stack">
+                                <li data-cat="languages">Python</li>
+                                <li data-cat="languages">JavaScript</li>
+                                <li data-cat="tools">Unit testing</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details class="section" id="stack">
+                <summary>
+                    <h2>Skills and stack</h2>
+                    <span class="section-meta" id="stack-meta">Languages, frameworks and tools</span>
+                    <svg class="chevron" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+                </summary>
+                <div class="panel">
 
                     <!--
-                    <div class="section-title">Skills</div>
-                    <strong class="mb-1 d-block">Commercial experience:</strong>
-                    <div class="skills mb-2">
-                        <span>Kotlin</span>
-                        <span>Python</span>
-                        <span>C</span>
-                        <span>Ktor</span>
-                        <span>Koin</span>
-                        <span>ktlint</span>
-                        <span>Jackson</span>
-                        <span>Coroutines</span>
-                        <span>PostgreSQL</span>
-                        <span>Docker</span>
-                        <span>Git</span>
-                        <span>GitLab</span>
-                        <span>GitHub</span>
-                        <span>Bitbucket</span>
-                        <span>Linux</span>
-                        <span>Jenkins</span>
-                        <span>SonarQube</span>
-                        <span>JUnit</span>
-                        <span>MockK</span>
-                        <span>Confluence</span>
-                        <span>Jira</span>
-                        <span>Swagger/OpenAPI</span>
-                    </div>
-                    <strong class="mb-1 d-block mt-3">Academic/project experience:</strong>
-                    <div class="skills mb-3">
-                        <span>C</span>
-                        <span>C#</span>
-                        <span>C++</span>
-                        <span>OCaml</span>
-                        <span>Java</span>
-                        <span>Go</span>
-                        <span>JavaScript</span>
-                        <span>TypeScript</span>
-                        <span>Ruby</span>
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>Django</span>
-                        <span>Flask</span>
-                        <span>FastAPI</span>
-                        <span>NumPy</span>
-                        <span>Pandas</span>
-                        <span>scikit-learn</span>
-                        <span>PyTorch</span>
-                        <span>TensorFlow</span>
-                        <span>Keras</span>
-                        <span>Matplotlib</span>
-                        <span>Seaborn</span>
-                        <span>Jupyter</span>
-                        <span>MS SQL</span>
-                        <span>MySQL</span>
-                        <span>MongoDB</span>
-                        <span>Redis</span>
-                        <span>.NET</span>
-                        <span>ASP.NET</span>
-                        <span>Jetpack Compose</span>
-                        <span>Optuna</span>
-                        <span>Jinja2</span>
-                        <span>Cython</span>
-                        <span>Qt</span>
-                        <span>Roblox Studio</span>
-                        <span>OpenCV</span>
-                        <span>GitHub Actions</span>
-                        <span>OpenAI API</span>
-                        <span>HuggingFace</span>
-                        <span>LaTeX</span>
-                    </div>
+                        Skills not tied to one position.
+                        Skills from a position's stack are merged in by the script at the end of the page.
                     -->
-
+                    <div class="skill-group" data-cat="languages">
+                        <h3>Languages</h3>
+                        <ul class="chips">
+                            <li>Kotlin</li>
+                            <li>Python</li>
+                            <li>C</li>
+                            <li>C#</li>
+                            <li>C++</li>
+                            <li>OCaml</li>
+                            <li>Java</li>
+                            <li>Go</li>
+                            <li>JavaScript</li>
+                            <li>TypeScript</li>
+                            <li>Ruby</li>
+                            <li>HTML</li>
+                            <li>CSS</li>
+                            <li>Cython</li>
+                        </ul>
+                    </div>
+                    <div class="skill-group" data-cat="backend">
+                        <h3>Backend and APIs</h3>
+                        <ul class="chips">
+                            <li>Ktor</li>
+                            <li>Koin</li>
+                            <li>Coroutines</li>
+                            <li>Jackson</li>
+                            <li>Swagger/OpenAPI</li>
+                            <li>Django</li>
+                            <li>Flask</li>
+                            <li>FastAPI</li>
+                            <li>.NET</li>
+                            <li>ASP.NET</li>
+                            <li>Jinja2</li>
+                        </ul>
+                    </div>
+                    <div class="skill-group" data-cat="data">
+                        <h3>Databases and storage</h3>
+                        <ul class="chips">
+                            <li>PostgreSQL</li>
+                            <li>MS SQL</li>
+                            <li>MySQL</li>
+                            <li>MongoDB</li>
+                            <li>Redis</li>
+                        </ul>
+                    </div>
+                    <div class="skill-group" data-cat="ml">
+                        <h3>Machine learning and science</h3>
+                        <ul class="chips">
+                            <li>PyTorch</li>
+                            <li>TensorFlow</li>
+                            <li>Keras</li>
+                            <li>scikit-learn</li>
+                            <li>HuggingFace</li>
+                            <li>OpenAI API</li>
+                            <li>Optuna</li>
+                            <li>OpenCV</li>
+                            <li>NumPy</li>
+                            <li>Pandas</li>
+                            <li>Matplotlib</li>
+                            <li>Seaborn</li>
+                            <li>Jupyter</li>
+                        </ul>
+                    </div>
+                    <div class="skill-group" data-cat="agents">
+                        <h3>AI agents</h3>
+                        <ul class="chips"></ul>
+                    </div>
+                    <div class="skill-group" data-cat="tools">
+                        <h3>DevOps and tools</h3>
+                        <ul class="chips">
+                            <li>Docker</li>
+                            <li>Linux</li>
+                            <li>Jenkins</li>
+                            <li>Git</li>
+                            <li>GitLab</li>
+                            <li>GitHub</li>
+                            <li>Bitbucket</li>
+                            <li>SonarQube</li>
+                            <li>ktlint</li>
+                            <li>JUnit</li>
+                            <li>MockK</li>
+                            <li>Jira</li>
+                            <li>Confluence</li>
+                            <li>GitHub Actions</li>
+                            <li>LaTeX</li>
+                        </ul>
+                    </div>
+                    <div class="skill-group" data-cat="apps">
+                        <h3>Apps and interfaces</h3>
+                        <ul class="chips">
+                            <li>Jetpack Compose</li>
+                            <li>Qt</li>
+                            <li>Roblox Studio</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="section-title">Languages</div>
-                    <ul class="mb-3">
-                        <li>Russian — Native</li>
-                        <li>English — B2</li>
-                        <li>German — B1</li>
-                    </ul>
-                    <div class="section-title">GitHub</div>
-                    <ul>
-                        <li><a href="https://github.com/akabynda" target="_blank">github.com/akabynda</a></li>
-                    </ul>
-                    <div class="section-title">Scholar</div>
-                    <ul>
-                        <li><a href="https://scholar.google.com/citations?user=jTpC9kAAAAAJ&hl=ru&authuser=1" target="_blank">scholar.google.com</a></li>
-                    </ul>
-                    <div class="section-title">Certificates and Awards</div>
-                    <ul>
-                        <li>
-                            <a href="https://drive.google.com/drive/folders/1ZkF-NXdOr42KMzB7vm0y4ZedkVwlvstF?usp=sharing"
-                                target="_blank">
-                                Google Drive (certificates, awards)
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="section-title">Location</div>
-                    <div>Saint Petersburg</div>
-
-                    <div class="section-title">Citizenship / Status</div>
-                    <ul class="mb-3">
-                        <li>Citizenship: Kazakhstan</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+            </details>
+        </main>
     </div>
+
+    <script>
+        (function () {
+            const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+            const allDetails = $$('details');
+            const jobs = $$('.job');
+            const skills = new Map();
+
+            const skillFor = (name, cat) => {
+                const key = name.toLowerCase();
+                if (!skills.has(key)) skills.set(key, { name, cat, jobs: [], chip: null });
+                return skills.get(key);
+            };
+
+            /* Collect: standalone skills first, so their order is kept, then each position's stack */
+            $$('.skill-group').forEach(group => {
+                $$('li', group).forEach(li => {
+                    skillFor(li.textContent.trim(), group.dataset.cat);
+                });
+            });
+
+            jobs.forEach(job => {
+                const info = {
+                    id: job.id,
+                    short: job.dataset.short,
+                    title: job.querySelector('.row-title').textContent.trim(),
+                    role: job.querySelector('.job-role').textContent.trim(),
+                    dates: job.querySelector('.dates').textContent.trim()
+                };
+                $$('.job-stack li', job).forEach(li => {
+                    const skill = skillFor(li.textContent.trim(), li.dataset.cat);
+                    skill.jobs.push(info);
+                    const chip = document.createElement('button');
+                    chip.type = 'button';
+                    chip.className = 'chip chip--tied';
+                    chip.textContent = skill.name;
+                    chip.title = 'Show in Skills and stack';
+                    chip.addEventListener('click', () => {
+                        selectSkill(skill);
+                        document.getElementById('stack').open = true;
+                        skill.chip.scrollIntoView({ block: 'center', behavior: reducedMotion() ? 'auto' : 'smooth' });
+                        skill.chip.focus({ preventScroll: true });
+                    });
+                    li.replaceChildren(chip);
+                });
+            });
+
+            /* Render the merged list: skills from positions first inside each group */
+            const note = document.createElement('div');
+            note.className = 'skill-note';
+            note.setAttribute('role', 'status');
+            note.hidden = true;
+
+            const reducedMotion = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const groups = $$('.skill-group');
+            const all = [...skills.values()];
+
+            groups.forEach(group => {
+                const list = group.querySelector('.chips');
+                const members = all.filter(skill => skill.cat === group.dataset.cat);
+                const ordered = [...members.filter(s => s.jobs.length), ...members.filter(s => !s.jobs.length)];
+                list.replaceChildren(...ordered.map(skill => {
+                    const li = document.createElement('li');
+                    const tied = skill.jobs.length > 0;
+                    const chip = document.createElement(tied ? 'button' : 'span');
+                    chip.className = 'chip' + (tied ? ' chip--tied' : '');
+                    chip.textContent = skill.name;
+                    if (tied) {
+                        chip.type = 'button';
+                        chip.setAttribute('aria-pressed', 'false');
+                        chip.addEventListener('click', () => selectSkill(skill === selected ? null : skill));
+                    }
+                    li.append(chip);
+                    skill.chip = chip;
+                    return li;
+                }));
+            });
+
+            /* Selecting a skill shows its sources under its group */
+            let selected = null;
+
+            function selectSkill(skill) {
+                if (selected) selected.chip.setAttribute('aria-pressed', 'false');
+                selected = skill;
+                note.hidden = !skill;
+                if (!skill) return;
+                skill.chip.setAttribute('aria-pressed', 'true');
+                note.replaceChildren();
+                const title = document.createElement('strong');
+                title.textContent = skill.name;
+                note.append(title);
+                const list = document.createElement('ul');
+                skill.jobs.forEach(job => {
+                    const li = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.className = 'link';
+                    link.href = '#' + job.id;
+                    link.textContent = job.title;
+                    li.append(link, ', ' + job.role + ', ' + job.dates);
+                    list.append(li);
+                });
+                note.append(list);
+                skill.chip.closest('.skill-group').append(note);
+            }
+
+            document.getElementById('stack-meta').textContent = all.length + ' skills';
+
+            /* Opening: play the drop only on a click, never on load */
+            allDetails.forEach(details => {
+                details.querySelector(':scope > summary').addEventListener('click', () => {
+                    details.classList.add('is-opening');
+                });
+                details.querySelector(':scope > .panel').addEventListener('animationend', event => {
+                    if (event.target === event.currentTarget) details.classList.remove('is-opening');
+                });
+            });
+
+            /* Expand or collapse everything */
+            const toggleAll = document.getElementById('toggle-all');
+            const syncToggle = () => {
+                toggleAll.textContent = allDetails.every(d => d.open) ? 'Collapse all sections' : 'Expand all sections';
+            };
+            toggleAll.hidden = false;
+            toggleAll.addEventListener('click', () => {
+                const open = !allDetails.every(d => d.open);
+                allDetails.forEach(d => { d.open = open; });
+            });
+            document.addEventListener('toggle', syncToggle, true);
+            syncToggle();
+
+            /* Links to a section or position open it and everything around it */
+            const reveal = id => {
+                let node = id && document.getElementById(id);
+                while (node) {
+                    if (node.tagName === 'DETAILS') node.open = true;
+                    node = node.parentElement;
+                }
+            };
+            document.addEventListener('click', event => {
+                const link = event.target.closest('a[href^="#"]');
+                if (link) reveal(link.getAttribute('href').slice(1));
+            });
+            window.addEventListener('hashchange', () => reveal(location.hash.slice(1)));
+            if (location.hash) {
+                reveal(location.hash.slice(1));
+                document.getElementById(location.hash.slice(1))?.scrollIntoView();
+            }
+
+            /* Print and PDF show everything, then return to the visitor's state */
+            let openBeforePrint = [];
+            window.addEventListener('beforeprint', () => {
+                openBeforePrint = allDetails.filter(d => d.open);
+                allDetails.forEach(d => { d.open = true; });
+            });
+            window.addEventListener('afterprint', () => {
+                allDetails.forEach(d => { d.open = openBeforePrint.includes(d); });
+            });
+        })();
+    </script>
 </body>
 
 </html>
